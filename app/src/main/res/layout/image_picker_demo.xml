@@ -44,11 +44,10 @@
             android:id="@+id/take_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:fabSize="normal"
             android:layout_centerInParent="true"
             app:srcCompat="@drawable/ic_camera"
             app:useCompatPadding="true"/>
-
-
 
     </RelativeLayout>
 

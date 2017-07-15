@@ -1,11 +1,10 @@
 package gun0912.tedbottompickerdemo;
 
 import android.Manifest;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +21,6 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
-
-import gun0912.tedbottompicker.TedBottomPicker;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -69,44 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 PermissionListener permissionlistener = new PermissionListener() {
                     @Override
                     public void onPermissionGranted() {
-
-                        TedBottomPicker bottomSheetDialogFragment = new TedBottomPicker.Builder(MainActivity.this)
-                                .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
-                                    @Override
-                                    public void onImageSelected(final Uri uri) {
-                                        Log.d("ted", "uri: " + uri);
-                                        Log.d("ted", "uri.getPath(): " + uri.getPath());
-                                        selectedUri = uri;
-
-                                        iv_image.setVisibility(View.VISIBLE);
-                                        mSelectedImagesContainer.setVisibility(View.GONE);
-                                        iv_image.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                mGlideRequestManager
-                                                        .load(uri)
-                                                        .into(iv_image);
-                                            }
-                                        });
-                                        /*
-                                        Glide.with(MainActivity.this)
-                                                //.load(uri.toString())
-                                                .load(uri)
-                                                .into(iv_image);
-                                         */
-                                    }
-                                })
-                                //.setPeekHeight(getResources().getDisplayMetrics().heightPixels/2)
-                                .setSelectedUri(selectedUri)
-                                .setPeekHeight(200)
-                                .create();
-
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.main_container, bottomSheetDialogFragment);
-                        ft.commitAllowingStateLoss();
-                        
-                       // bottomSheetDialogFragment.setCancelable(false);
-                       // bottomSheetDialogFragment.show(getSupportFragmentManager());
+                        Intent intent = new Intent(getApplicationContext(), ImagePickerDemo.class);
+                        intent.putExtra("picker", "single");
+                        startActivity(intent);
                     }
 
                     @Override
@@ -138,29 +100,9 @@ public class MainActivity extends AppCompatActivity {
                 PermissionListener permissionlistener = new PermissionListener() {
                     @Override
                     public void onPermissionGranted() {
-
-                        TedBottomPicker bottomSheetDialogFragment = new TedBottomPicker.Builder(MainActivity.this)
-                                .setOnMultiImageSelectedListener(new TedBottomPicker.OnMultiImageSelectedListener() {
-                                    @Override
-                                    public void onImagesSelected(ArrayList<Uri> uriList) {
-                                        selectedUriList = uriList;
-                                        showUriList(uriList);
-                                    }
-                                })
-                                //.setPeekHeight(getResources().getDisplayMetrics().heightPixels/2)
-                                .showCameraTile(false)
-                                .setPeekHeight(1600)
-                                .showTitle(false)
-                                .setCompleteButtonText("Done")
-                                .setEmptySelectionText("No Select")
-                                .setSelectedUriList(selectedUriList)
-                                .create();
-
-                       // bottomSheetDialogFragment.show(getSupportFragmentManager());
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.main_container, bottomSheetDialogFragment);
-                        ft.commitAllowingStateLoss();
-
+                        Intent intent = new Intent(getApplicationContext(), ImagePickerDemo.class);
+                        intent.putExtra("picker", "multi");
+                        startActivity(intent);
                     }
 
                     @Override

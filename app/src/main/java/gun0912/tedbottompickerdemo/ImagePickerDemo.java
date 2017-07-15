@@ -28,6 +28,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
@@ -45,8 +46,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.cameraview.AspectRatio;
 import com.google.android.cameraview.CameraView;
 
@@ -122,7 +128,10 @@ public class ImagePickerDemo extends AppCompatActivity implements
 
     TedBottomPicker bottomSheetDialogFragment;
 
+    private BottomSheetBehavior bottomSheetBehavior;
+    private FrameLayout bottomSheetView;
 
+    private String pickerType;
     Uri selectedUri;
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
@@ -142,10 +151,15 @@ public class ImagePickerDemo extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image_picker_demo);
         mCameraView = (CameraView) findViewById(R.id.camera);
+        bottomSheetView = (FrameLayout) findViewById(R.id.container);
 
         // setRecyclerView();
         if (mCameraView != null) {
             mCameraView.addCallback(mCallback);
+        }
+
+        if (getIntent() != null) {
+            pickerType = getIntent().getStringExtra("picker");
         }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.take_picture);
         if (fab != null) {
@@ -165,15 +179,23 @@ public class ImagePickerDemo extends AppCompatActivity implements
         super.onResume();
         if (checkPermission()) {
             mCameraView.start();
-            if (bottomSheetDialogFragment == null || !bottomSheetDialogFragment.isVisible())
-                showBottomPicker();
+            if (bottomSheetDialogFragment == null || !bottomSheetDialogFragment.isVisible()) {
+
+                if (pickerType.equalsIgnoreCase("single"))
+                    showBottomPicker();
+                else if (pickerType.equalsIgnoreCase("multi")) {
+                    showMultiBottomPicker();
+                }
+
+
+            }
 
         } else {
             requestPermission();
         }
     }
 
-    private void showBottomPicker() {
+    private void showMultiBottomPicker() {
         bottomSheetDialogFragment = new TedBottomPicker.Builder(ImagePickerDemo.this)
                 .setOnMultiImageSelectedListener(
                         new TedBottomPicker.OnMultiImageSelectedListener() {
@@ -188,7 +210,7 @@ public class ImagePickerDemo extends AppCompatActivity implements
                 .setPeekHeight(getResources().getDisplayMetrics().heightPixels / 2)
                 //.setPeekHeight(300)
                 .showCameraTile(false)
-               // .showGalleryTile(true)
+                // .showGalleryTile(true)
                 .setCompleteButtonText("Done")
                 .setEmptySelectionText("No Select")
                 .setSelectedUriList(selectedUriList)
@@ -196,6 +218,62 @@ public class ImagePickerDemo extends AppCompatActivity implements
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.container, bottomSheetDialogFragment);
         ft.commitAllowingStateLoss();
+
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView);
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED)
+                    bottomSheetDialogFragment.setStateOpen(false);
+                else
+                    bottomSheetDialogFragment.setStateOpen(true);
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+    }
+
+    private void showBottomPicker() {
+        bottomSheetDialogFragment = new TedBottomPicker.Builder(ImagePickerDemo.this)
+                .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
+                    @Override
+                    public void onImageSelected(Uri uri) {
+                        imagePreview(uri);
+                        Toast.makeText(ImagePickerDemo.this, "length ",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setPeekHeight(getResources().getDisplayMetrics().heightPixels / 2)
+                //.setPeekHeight(300)
+                .showCameraTile(false)
+                // .showGalleryTile(true)
+                .setCompleteButtonText("Done")
+                .setEmptySelectionText("No Select")
+                .setSelectedUriList(selectedUriList)
+                .create();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.container, bottomSheetDialogFragment);
+        ft.commitAllowingStateLoss();
+
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView);
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED)
+                    bottomSheetDialogFragment.setStateOpen(false);
+                else
+                    bottomSheetDialogFragment.setStateOpen(true);
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+
 
         //
     }
@@ -436,5 +514,32 @@ public class ImagePickerDemo extends AppCompatActivity implements
 
         return FirstPermissionResult == PackageManager.PERMISSION_GRANTED &&
                 SecondPermissionResult == PackageManager.PERMISSION_GRANTED;
+    }
+
+
+    public void imagePreview(final Uri uri) {
+        final Dialog dialog = new Dialog(this, android.R.style.Theme_Light);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.image_preview);
+
+        ImageView previewImage = (ImageView) dialog.findViewById(R.id.img_preview_image);
+        Button saveButton = (Button) dialog.findViewById(R.id.btn_image_preview_save);
+        Button cancelButton = (Button) dialog.findViewById(R.id.btn_image_preview_canel);
+
+        Glide.with(this).load(uri).into(previewImage);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }
