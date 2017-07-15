@@ -31,7 +31,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -52,6 +51,8 @@ import java.util.Locale;
 import gun0912.tedbottompicker.adapter.ImageGalleryAdapter;
 import gun0912.tedbottompicker.util.RealPathUtil;
 
+import static gun0912.tedbottompicker.R.id.tv_title;
+
 public class TedBottomPicker extends Fragment {
 
     public static final String TAG = "TedBottomPicker";
@@ -62,8 +63,8 @@ public class TedBottomPicker extends Fragment {
     public Builder builder;
     ImageGalleryAdapter imageGalleryAdapter;
     View view_title_container;
-    TextView tv_title;
-    Button btn_done;
+    TextView title, leftIcon, rightIcon;
+  //  Button btn_done;
 
     FrameLayout selected_photos_container_frame;
     HorizontalScrollView hsv_selected_photos;
@@ -234,10 +235,10 @@ public class TedBottomPicker extends Fragment {
     private void setDoneButton() {
 
         if (builder.completeButtonText != null) {
-            btn_done.setText(builder.completeButtonText);
+          //  btn_done.setText(builder.completeButtonText);
         }
 
-        btn_done.setOnClickListener(new View.OnClickListener() {
+      /*  btn_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -245,10 +246,10 @@ public class TedBottomPicker extends Fragment {
 
 
             }
-        });
+        });*/
     }
 
-    private void onMultiSelectComplete() {
+    public void onMultiSelectComplete() {
 
         if (selectedUriList.size() < builder.selectMinCount) {
             String message;
@@ -269,7 +270,7 @@ public class TedBottomPicker extends Fragment {
 
     private void checkMultiMode() {
         if (!isMultiSelect()) {
-            btn_done.setVisibility(View.GONE);
+          //  btn_done.setVisibility(View.GONE);
             selected_photos_container_frame.setVisibility(View.GONE);
         }
 
@@ -279,13 +280,18 @@ public class TedBottomPicker extends Fragment {
 
         view_title_container = contentView.findViewById(R.id.view_title_container);
         rc_gallery = (RecyclerView) contentView.findViewById(R.id.rc_gallery);
-        tv_title = (TextView) contentView.findViewById(R.id.tv_title);
-        btn_done = (Button) contentView.findViewById(R.id.btn_done);
+        title = (TextView) contentView.findViewById(tv_title);
+        leftIcon = (TextView) contentView.findViewById(R.id.tv_left_icon);
+        rightIcon = (TextView) contentView.findViewById(R.id.tv_right_icon);
+      //  btn_done = (Button) contentView.findViewById(R.id.btn_done);
 
         selected_photos_container_frame = (FrameLayout) contentView.findViewById(R.id.selected_photos_container_frame);
         hsv_selected_photos = (HorizontalScrollView) contentView.findViewById(R.id.hsv_selected_photos);
         selected_photos_container = (LinearLayout) contentView.findViewById(R.id.selected_photos_container);
         selected_photos_empty = (TextView) contentView.findViewById(R.id.selected_photos_empty);
+
+        leftIcon.setText("\uf106");
+        rightIcon.setText("\uf106");
     }
 
     private void setRecyclerView() {
@@ -332,6 +338,8 @@ public class TedBottomPicker extends Fragment {
         Log.d(TAG, "selected uri: " + uri.toString());
         //uri = Uri.parse(uri.toString());
         if (isMultiSelect()) {
+
+
             if (selectedUriList.contains(uri)) {
                 removeImage(uri);
             } else {
@@ -397,6 +405,7 @@ public class TedBottomPicker extends Fragment {
             @Override
             public void onClick(View v) {
                 removeImage(uri);
+
             }
         });
 
@@ -516,7 +525,7 @@ public class TedBottomPicker extends Fragment {
     private void setTitle() {
 
         if (!builder.showTitle) {
-            tv_title.setVisibility(View.GONE);
+            title.setVisibility(View.GONE);
 
             if (!isMultiSelect()) {
                 view_title_container.setVisibility(View.GONE);
@@ -526,11 +535,11 @@ public class TedBottomPicker extends Fragment {
         }
 
         if (!TextUtils.isEmpty(builder.title)) {
-            tv_title.setText(builder.title);
+            title.setText(builder.title);
         }
 
         if (builder.titleBackgroundResId > 0) {
-            tv_title.setBackgroundResource(builder.titleBackgroundResId);
+            title.setBackgroundResource(builder.titleBackgroundResId);
         }
 
     }
@@ -603,6 +612,16 @@ public class TedBottomPicker extends Fragment {
 
         complete(selectedImageUri);
 
+    }
+
+    public void setStateOpen(boolean open) {
+        if (open) {
+            leftIcon.setText("\uf107");
+            rightIcon.setText("\uf107");
+        } else {
+            leftIcon.setText("\uf106");
+            rightIcon.setText("\uf106");
+        }
     }
 
 
@@ -678,6 +697,8 @@ public class TedBottomPicker extends Fragment {
             this.cameraTileDrawable = cameraTileDrawable;
             return this;
         }
+
+
 
         public Builder setGalleryTile(@DrawableRes int galleryTileResId) {
             setGalleryTile(ContextCompat.getDrawable(context, galleryTileResId));
@@ -876,5 +897,8 @@ public class TedBottomPicker extends Fragment {
 
 
     }
+
+
+
 
 }

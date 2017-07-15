@@ -2,6 +2,7 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -12,29 +13,44 @@
     <RelativeLayout
         android:id="@+id/view_title_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <Button
-            android:id="@+id/btn_done"
-            style="?borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="@string/done"
-            android:textColor="?attr/colorAccent"
-            android:textSize="16sp" />
+        android:layout_height="wrap_content"
+        android:background="@color/tedbottompicker_white"
+        android:gravity="center">
 
         <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_left_icon"
+            fontPath="@string/font_awesome"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="16dp"
-            android:layout_toLeftOf="@id/btn_done"
-            android:text="@string/tedbottompicker_title"
+            android:layout_toLeftOf="@+id/tv_title"
+            android:text="@string/up"
+            android:textColor="@color/tedbottompicker_camera"
+            android:textSize="20sp"
+            tools:ignore="MissingPrefix" />
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/scroll_up_for_gallery"
+            android:textColor="@color/tedbottompicker_camera"
             android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_right_icon"
+            fontPath="@string/font_awesome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_toRightOf="@id/tv_title"
+            android:text="@string/up"
+            android:textColor="@color/tedbottompicker_camera"
+            android:textSize="20sp"
+            tools:ignore="MissingPrefix" />
 
     </RelativeLayout>
 
@@ -67,7 +83,10 @@
         </FrameLayout>
 
     -->
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/tedbottompicker_selected" />
 
     <FrameLayout
         android:id="@+id/selected_photos_container_frame"

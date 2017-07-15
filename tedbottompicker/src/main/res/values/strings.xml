@@ -7,5 +7,8 @@
 
     <string name="select_max_count">Already %1$d images selected</string>
     <string name="select_min_count">You have to choice %1$d images</string>
+    <string name="scroll_up_for_gallery">Scroll Up For Gallery</string>
+    <string name="font_awesome">fonts/FontAwesome.otf</string>
+    <string name="up">up</string>
 
 </resources>

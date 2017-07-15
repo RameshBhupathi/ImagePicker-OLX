@@ -9,4 +9,6 @@
     <color name="accent">#4CAF50</color>
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#727272</color>
+    <color name="light_black">#55000000</color>
+    <color name="white">#ffffff</color>
 </resources>

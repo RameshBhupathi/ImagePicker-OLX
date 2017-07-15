@@ -1,1 +1,1 @@
-include ':app', ':tedbottompicker', ':library'
+include ':app', ':library', ':tedbottompicker'
