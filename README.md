@@ -1,8 +1,12 @@
  
 Combined both TedBottomPicker and Camera View, to get the View Similar to ImagePickers of Olx.
+We can Pick Images From Gallery and Camera in two modes
+# Single 
+# Multi
+Can pick multiple images, from both Camera and Gallery 
 
 
-### Single/Multi Select Screen Shot
+### Select Screen Shot
 <img src="device-2017-07-16-202616.png" width="30%"/> <img src="device-2017-07-16-202724.png" width="30%"/> <img src="device-2017-07-16-202750.png" width="30%"/> 
 
         
