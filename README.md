@@ -1,85 +1,16 @@
  
-#  ImagePicker?
-In Google's Material Design, Google introduce **Bottom sheets**.([Components – Bottom sheets](https://material.google.com/components/bottom-sheets.html))<br/>
-**Bottom sheets** slide up from the bottom of the screen to reveal more content.
-
-If you want pick image from gallery or take picture, this library can help easily.<br/>
-**TedBottomPicker** provide 3 options: <br/>
-
-1. Take a picture by camera(using `MediaStore.ACTION_IMAGE_CAPTURE` intent)
-2. Get image from gallery(using `Intent.ACTION_PICK` intent)
-3. Get image from recent image(using `MediaStore.Images.Media.EXTERNAL_CONTENT_URI` cursor)
+Combined both TedBottomPicker and Camera View, to get the View Similar to ImagePickers of Olx.
 
 
-*ImagePicker** is simple image picker using bottom sheet.
+### Single/Multi Select Screen Shot
+<img src="device-2017-07-16-202616.png" width="30%"/> <img src="device-2017-07-16-202724.png" width="30%"/> <img src="device-2017-07-16-202750.png" width="30%"/> 
 
-<br/><br/>
-
-
-
-## Demo
-
-1. Show Bottom Sheet.
-2. Pick Image
-
-### Single/Multi Select
-
-
-           
-
-
+        
 <br/><br/>
 
 
 
 
-## How to use
-### 1. Check Permission
-You have to grant `WRITE_EXTERNAL_STORAGE` permission from user.<br/>
-If your targetSDK version is 23+, you have to check permission and request permission to user.<br/>
-Because after Marshmallow(6.0), you have to not only decalare permisions in `AndroidManifest.xml` but also request permissions at runtime.<br/>
-
-
-#<br/>
-
-## Customize
-You can customize something ...<br />
-
-### Function
-
-#### Common
-
-* `setPreviewMaxCount(Int) (default: 25)`
-* `setPeekHeight(Int)`
-* `setPeekHeightResId(R.dimen.xxx)`
-* `showCameraTile(Boolean) (default: true)`
-* `setCameraTile(R.drawable.xxx or Drawable)`
-* `setCameraTileBackgroundResId(R.color.xxx)`
-* `setGalleryTile(R.drawable.xxx or Drawable)`
-* `showGalleryTile(Boolean) (default: true)`
-* `setGalleryTileBackgroundResId(R.color.xxx)`
-* `setSpacing(Int)`
-* `setSpacingResId(R.dimen.xxx)`
-* `setOnErrorListener(OnErrorListener)`
-* `setTitle(String or R.string.xxx) (default: 'Select Image','사진 선택')`
-* `showTitle(Boolean) (default: true)`
-* `setTitleBackgroundResId(R.color.xxx)`
-* `setImageProvider(ImageProvider)`
-: If you want load grid image yourself, you can use your ImageProvider
-
-#### Single Select
-* `setSelectedUri(Uri)`
-
-#### Multi Select
-* `setDeSelectIcon(R.drawable.xxx or Drawable)`
-* `setSelectedForeground(R.drawable.xxx or Drawable)`
-* `setSelectMaxCount(Int)`
-* `setSelectMinCount(Int)`
-* `setCompleteButtonText(String or R.string.xxx) (default: 'Done','완료')`
-* `setEmptySelectionText(String or R.string.xxx) (default: 'No Image','이미지가 선택되지 않았습니다')`
-* `setSelectMaxCountErrorText(String or R.string.xxx)`
-* `setSelectMinCountErrorText(String or R.string.xxx)`
-* `setSelectedUriList(ArrayList<Uri>)`
 
 <br/><br/>
 
@@ -87,6 +18,9 @@ You can customize something ...<br />
 
 ## Thanks 
 * [Flipboard-bottomsheet](https://github.com/Flipboard/bottomsheet) - Android component which presents a dismissible view from the bottom of the screen
+* [TedBottomPicker](https://github.com/ParkSangGwon/TedBottomPicker)
+* [cameraview](https://github.com/google/cameraview)
+* [TedPermission](https://github.com/ParkSangGwon/TedPermission)
 
 
 
@@ -96,7 +30,7 @@ You can customize something ...<br />
 
 ## License 
  ```code
-Copyright 2017 Ted Park
+Copyright 2017 Ramesh Bhupathi
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
