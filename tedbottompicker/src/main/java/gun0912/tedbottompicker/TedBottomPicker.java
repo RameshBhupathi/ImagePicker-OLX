@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -64,7 +65,7 @@ public class TedBottomPicker extends Fragment {
     ImageGalleryAdapter imageGalleryAdapter;
     View view_title_container;
     TextView title, leftIcon, rightIcon;
-  //  Button btn_done;
+    //  Button btn_done;
 
     FrameLayout selected_photos_container_frame;
     HorizontalScrollView hsv_selected_photos;
@@ -174,11 +175,6 @@ public class TedBottomPicker extends Fragment {
         return contentView;
     }
 
-  /*  @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return super.onCreateDialog(savedInstanceState);
-    }*/
-
     @Override
     public void onViewCreated(View contentView, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(contentView, savedInstanceState);
@@ -186,42 +182,6 @@ public class TedBottomPicker extends Fragment {
 
     }
 
-   /* @Override
-    public void setupDialog(Dialog dialog, int style) {
-        super.setupDialog(dialog, style);
-        contentView = View.inflate(getContext(), R.layout.tedbottompicker_content_view, null);
-        dialog.setContentView(contentView);
-        CoordinatorLayout.LayoutParams layoutParams =
-                (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
-       *//* CoordinatorLayout.Behavior behavior = layoutParams.getBehavior();
-        if (behavior != null && behavior instanceof BottomSheetBehavior) {
-            ((BottomSheetBehavior) behavior).setBottomSheetCallback(mBottomSheetBehaviorCallback);
-            if (builder != null && builder.peekHeight > 0) {
-                ((BottomSheetBehavior) behavior).setPeekHeight(builder.peekHeight);
-            }
-
-        }*//*
-
-        initView(contentView);
-
-        setTitle();
-        setRecyclerView();
-        setSelectionView();
-
-        selectedUriList = new ArrayList<>();
-
-
-        if (builder.onImageSelectedListener != null && cameraImageUri != null) {
-            addUri(cameraImageUri);
-        } else if (builder.onMultiImageSelectedListener != null && tempUriList != null) {
-            for (Uri uri : tempUriList) {
-                addUri(uri);
-            }
-        }
-
-        setDoneButton();
-        checkMultiMode();
-    }*/
 
     private void setSelectionView() {
 
@@ -235,18 +195,8 @@ public class TedBottomPicker extends Fragment {
     private void setDoneButton() {
 
         if (builder.completeButtonText != null) {
-          //  btn_done.setText(builder.completeButtonText);
+            //  btn_done.setText(builder.completeButtonText);
         }
-
-      /*  btn_done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                onMultiSelectComplete();
-
-
-            }
-        });*/
     }
 
     public void onMultiSelectComplete() {
@@ -270,7 +220,6 @@ public class TedBottomPicker extends Fragment {
 
     private void checkMultiMode() {
         if (!isMultiSelect()) {
-          //  btn_done.setVisibility(View.GONE);
             selected_photos_container_frame.setVisibility(View.GONE);
         }
 
@@ -283,13 +232,16 @@ public class TedBottomPicker extends Fragment {
         title = (TextView) contentView.findViewById(tv_title);
         leftIcon = (TextView) contentView.findViewById(R.id.tv_left_icon);
         rightIcon = (TextView) contentView.findViewById(R.id.tv_right_icon);
-      //  btn_done = (Button) contentView.findViewById(R.id.btn_done);
 
         selected_photos_container_frame = (FrameLayout) contentView.findViewById(R.id.selected_photos_container_frame);
         hsv_selected_photos = (HorizontalScrollView) contentView.findViewById(R.id.hsv_selected_photos);
         selected_photos_container = (LinearLayout) contentView.findViewById(R.id.selected_photos_container);
         selected_photos_empty = (TextView) contentView.findViewById(R.id.selected_photos_empty);
 
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "FontAwesome.otf");
+
+        leftIcon.setTypeface(typeface);
+        rightIcon.setTypeface(typeface);
         leftIcon.setText("\uf106");
         rightIcon.setText("\uf106");
     }
@@ -618,7 +570,9 @@ public class TedBottomPicker extends Fragment {
         if (open) {
             leftIcon.setText("\uf107");
             rightIcon.setText("\uf107");
+            title.setText(getString(R.string.swipe_down_for_camera));
         } else {
+            title.setText(getString(R.string.swipe_up_for_gallery));
             leftIcon.setText("\uf106");
             rightIcon.setText("\uf106");
         }
@@ -697,7 +651,6 @@ public class TedBottomPicker extends Fragment {
             this.cameraTileDrawable = cameraTileDrawable;
             return this;
         }
-
 
 
         public Builder setGalleryTile(@DrawableRes int galleryTileResId) {
@@ -897,8 +850,6 @@ public class TedBottomPicker extends Fragment {
 
 
     }
-
-
 
 
 }

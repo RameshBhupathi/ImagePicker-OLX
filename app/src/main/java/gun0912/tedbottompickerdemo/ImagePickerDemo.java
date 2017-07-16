@@ -202,8 +202,6 @@ public class ImagePickerDemo extends AppCompatActivity implements
                             @Override
                             public void onImagesSelected(ArrayList<Uri> uriList) {
                                 selectedUriList = uriList;
-                                Toast.makeText(ImagePickerDemo.this, "length " + uriList.size(),
-                                        Toast.LENGTH_SHORT).show();
                                 // showUriList(uriList);
                             }
                         })
@@ -242,16 +240,14 @@ public class ImagePickerDemo extends AppCompatActivity implements
                     @Override
                     public void onImageSelected(Uri uri) {
                         imagePreview(uri);
-                        Toast.makeText(ImagePickerDemo.this, "length ",
-                                Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setPeekHeight(getResources().getDisplayMetrics().heightPixels / 2)
                 //.setPeekHeight(300)
                 .showCameraTile(false)
                 // .showGalleryTile(true)
-                .setCompleteButtonText("Done")
-                .setEmptySelectionText("No Select")
+                .setCompleteButtonText(getString(R.string.done))
+                .setEmptySelectionText(getString(R.string.no_select))
                 .setSelectedUriList(selectedUriList)
                 .create();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

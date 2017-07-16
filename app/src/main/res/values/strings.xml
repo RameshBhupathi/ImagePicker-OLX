@@ -11,4 +11,5 @@
     <string name="flash_on">Flash on</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="no_select">No Select</string>
 </resources>
