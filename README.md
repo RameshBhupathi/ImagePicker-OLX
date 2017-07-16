@@ -7,18 +7,11 @@ We can Pick Images From Gallery and Camera in two modes
 Can pick multiple images, from both Camera and Gallery 
 
 
-## Select Screen Shot
+## Screen Shot
 <img src="device-2017-07-16-202616.png" width="30%"/> <img src="device-2017-07-16-202724.png" width="30%"/> <img src="device-2017-07-16-202750.png" width="30%"/> 
 
         
 <br/><br/>
-
-
-
-
-
-<br/><br/>
-
 
 
 ## Thanks 
